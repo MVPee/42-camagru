@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  php:
+    container_name: php-camagru
+    build:
+      context: ./php
+    env_file:
+      - .env
+    volumes:
+      - ./php:/var/www/html
+    networks:
+      - app
+    restart: always
+
+  nginx:
+    container_name: nginx-camagru
+    image: nginx:latest
+    volumes:
+      - ./php:/var/www/html
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+    networks:
+      - app
+    restart: always
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-camagru
+    env_file:
+      - .env
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-camagru
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    depends_on:
+      - mysql
+    networks:
+      - app
+    restart: always
+
+networks:
+  app:
+    driver: bridge
