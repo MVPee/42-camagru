@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include("../srcs/database.php");
     include("../srcs/router.php");
 ?>
@@ -12,7 +13,7 @@
         <title><?= "Camagru - " . $title; ?></title>
     </head>
     <body>
-        <?php include("./components/navbar.php"); ?>
+        <?php include("../srcs/components/navbar.php"); ?>
         <main>
             <?php 
                 if ($page && file_exists($page))
@@ -21,6 +22,6 @@
                     echo "<h1>404 - Page Not Found</h1>";
             ?>
         </main>
-        <?php include("./components/footer.php"); ?>
+        <?php include("../srcs/components/footer.php"); ?>
     </body>
 </html>
