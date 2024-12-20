@@ -1,4 +1,5 @@
 <?php
+
     // Parse the requested URI
     $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
@@ -17,6 +18,19 @@
         case 'register':
             $title = "Register";
             $page = "register.php";
+            break;
+        case 'logout':
+            session_destroy();
+            header("Location: /login");
+            exit();
+            break;
+        case 'profile':
+            if (!isset($_SESSION['username']) || !isset($_SESSION['id'])) {
+                header("Location: /login");
+                exit();
+            }
+            $title = "Profile";
+            $page = "profile.php";
             break;
         default:
             $title = "404";
