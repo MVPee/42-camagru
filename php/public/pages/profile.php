@@ -4,5 +4,6 @@
     $result = mysqli_query($conn, $query);
     $row = mysqli_fetch_assoc($result);
     echo "<p>Username: " . $row["username"] . "</p>";
+    echo "<p>Email: " . $row["email"] . "</p>";
     echo "<p>Member since: " . $row["created_at"] . "</p>";
 ?>
