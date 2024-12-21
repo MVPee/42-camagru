@@ -1,29 +1,20 @@
 <?php
-    // Nettoyer l'URL pour obtenir le profil
     $request_uri = $_SERVER['REQUEST_URI'];
     $request_uri = str_replace('/profile/?profile=', '', $request_uri);
     $profile = str_replace('/profile?profile=', '', $request_uri);
 
-    // Vérifier si le profil est vide, sinon, utiliser la session
-    if (empty($profile)) {
-        $profile = $_SESSION['username'];  // Utiliser le nom d'utilisateur de la session si le profil est vide
-    }
-
-    // Requête pour obtenir les détails de l'utilisateur
     $query = "SELECT * FROM users WHERE username = '" . mysqli_real_escape_string($conn, $profile) . "'";
     $result = mysqli_query($conn, $query);
 
-    // Vérifier si l'utilisateur existe dans la base de données
-    if (mysqli_num_rows($result) > 0) {
+    if (mysqli_num_rows($result) > 0)
         $user_row = mysqli_fetch_assoc($result);
-    } else {
+    else {
         $profile = $_SESSION['username'];
         $query = "SELECT * FROM users WHERE username = '" . mysqli_real_escape_string($conn, $profile) . "'";
         $result = mysqli_query($conn, $query);
         $user_row = mysqli_fetch_assoc($result);
     }
 
-    // Requête pour obtenir les images téléchargées par l'utilisateur
     $query = "SELECT * FROM images WHERE userId = " . $user_row['id'] . " ORDER BY created_at DESC";
     $result = mysqli_query($conn, $query);
 ?>
