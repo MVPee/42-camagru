@@ -14,7 +14,8 @@ clean:	down
 
 fclean:	clean
 		docker system prune --all --force
-		sudo rm -rf data
+		rm -rf data
+		rm -rf php/public/uploads/*.png
 re:	clean
 	docker-compose up --build -d
 
