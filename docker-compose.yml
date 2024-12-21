@@ -11,6 +11,8 @@ services:
       - ./php:/var/www/html
     networks:
       - app
+    depends_on:
+      - mysql
     restart: always
 
   nginx:
