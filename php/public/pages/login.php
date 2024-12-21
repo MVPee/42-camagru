@@ -16,6 +16,7 @@
                 if (password_verify($password, $user["password"])) {
                     $_SESSION["username"] = $username;
                     $_SESSION["id"] = $user["id"];
+                    $_SESSION["email"] = $user["email"];
                     echo "<script>window.location.href = '/profile';</script>";
                     exit();
                 } else {
