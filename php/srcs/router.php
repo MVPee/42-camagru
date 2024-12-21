@@ -32,6 +32,14 @@
             $title = "Profile";
             $page = "profile.php";
             break;
+        case 'new':
+            if (!isset($_SESSION['username']) || !isset($_SESSION['id'])) {
+                header("Location: /login");
+                exit();
+            }
+            $title = "New";
+            $page = "new.php";
+            break;
         default:
             $title = "404";
             $page = "404.php";
