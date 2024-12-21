@@ -45,7 +45,7 @@
         if (mysqli_num_rows($result) > 0) {
             while ($images_row = mysqli_fetch_assoc($result)) {
                 echo "<span class=\"bar\"></span><br>";
-                echo "<img id='publication_img' src='/" . $images_row['path'] . 
+                echo "<img class='publication_img' src='/" . $images_row['path'] . 
                     "' onerror='this.style.display=\"none\"; this.insertAdjacentHTML(\"afterend\", 
                     \"<p>Image not found.<br>Contact an administator.</p>\");'><br>";
                 echo htmlspecialchars($images_row['description'], ENT_QUOTES, 'UTF-8') . "<br>";
@@ -75,7 +75,7 @@
         });
 
         // Observe each image as well
-        document.querySelectorAll('#publication_img').forEach(image => {
+        document.querySelectorAll('.publication_img').forEach(image => {
             observer.observe(image);
         });
     });
@@ -83,13 +83,13 @@
 
 
 <style>
-    .bar, #publication_img {
+    .bar, .publication_img {
         opacity: 0;
         transform: translateY(0px);
         transition: opacity 1s ease, transform 1s ease;
     }
 
-    .bar.visible, #publication_img.visible {
+    .bar.visible, .publication_img.visible {
         opacity: 1;
     }
 
@@ -103,7 +103,7 @@
         margin: 20px; 
     }
 
-    #profile, #publication_form, #publications {
+    #profile, #publications {
         text-align: center;
         display: flex;
         flex-direction: column;
@@ -121,7 +121,7 @@
         transform: scaleX(-1);
     }
 
-    #publication_img {
+    .publication_img {
         width: 90%;
         height: auto;
         max-height: 300px;
