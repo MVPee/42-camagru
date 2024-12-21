@@ -1,16 +1,39 @@
 <?php
-    // Query to get user details
-    $query = "SELECT * FROM users WHERE username = '" . $_SESSION["username"] . "'";
-    $result = mysqli_query($conn, $query);
-    $user_row = mysqli_fetch_assoc($result);
+    // Nettoyer l'URL pour obtenir le profil
+    $request_uri = $_SERVER['REQUEST_URI'];
+    $request_uri = str_replace('/profile/?profile=', '', $request_uri);
+    $profile = str_replace('/profile?profile=', '', $request_uri);
 
-    // Query to get images uploaded by the user
+    // Vérifier si le profil est vide, sinon, utiliser la session
+    if (empty($profile)) {
+        $profile = $_SESSION['username'];  // Utiliser le nom d'utilisateur de la session si le profil est vide
+    }
+
+    // Requête pour obtenir les détails de l'utilisateur
+    $query = "SELECT * FROM users WHERE username = '" . mysqli_real_escape_string($conn, $profile) . "'";
+    $result = mysqli_query($conn, $query);
+
+    // Vérifier si l'utilisateur existe dans la base de données
+    if (mysqli_num_rows($result) > 0) {
+        $user_row = mysqli_fetch_assoc($result);
+    } else {
+        $profile = $_SESSION['username'];
+        $query = "SELECT * FROM users WHERE username = '" . mysqli_real_escape_string($conn, $profile) . "'";
+        $result = mysqli_query($conn, $query);
+        $user_row = mysqli_fetch_assoc($result);
+    }
+
+    // Requête pour obtenir les images téléchargées par l'utilisateur
     $query = "SELECT * FROM images WHERE userId = " . $user_row['id'] . " ORDER BY created_at DESC";
     $result = mysqli_query($conn, $query);
 ?>
 
+
 <div id="profile">
-    <h1>Profile</h1>
+    <?php
+        if ($profile == $_SESSION['username']) echo "<h1>My profile</h1>";
+        else echo "<h1>" . $profile . "'s profile</h1>";
+    ?>
     <p>
         Username: <?=$user_row["username"]?><br>
         Email: <?=$user_row["email"]?><br>
@@ -19,13 +42,21 @@
 </div>
 
 <div id="publications">
-    <h2>Your publications</h2>
+    <?php
+        if ($profile == $_SESSION['username']) {
+            echo "<h2>My publications</h2>";
+            echo "<a href='/new'>New publications</a>";
+        }
+        else echo "<h2>" . $profile . "'s publications</h2>";
+    ?>
     <p><?=mysqli_num_rows($result)?></p>
     <?php
         if (mysqli_num_rows($result) > 0) {
             while ($images_row = mysqli_fetch_assoc($result)) {
                 echo "<span class=\"bar\"></span><br>";
-                echo "<img id='publication_img' src='/" . $images_row['path'] . "' onerror='this.style.display=\"none\"; this.insertAdjacentHTML(\"afterend\", \"<p>Image not found.<br>Contact an administator.</p>\");'><br>";
+                echo "<img id='publication_img' src='/" . $images_row['path'] . 
+                    "' onerror='this.style.display=\"none\"; this.insertAdjacentHTML(\"afterend\", 
+                    \"<p>Image not found.<br>Contact an administator.</p>\");'><br>";
                 echo htmlspecialchars($images_row['description'], ENT_QUOTES, 'UTF-8') . "<br>";
                 echo $images_row['created_at'];
             }
@@ -34,7 +65,6 @@
             echo "You don't have any publication for now.<br>";
     ?>
 </div>
-
 
 
 <script>
@@ -60,17 +90,16 @@
     });
 </script>
 
-<style>
 
+<style>
     .bar, #publication_img {
         opacity: 0;
         transform: translateY(0px);
         transition: opacity 1s ease, transform 1s ease;
     }
 
-    /* Add this class when elements are in view */
     .bar.visible, #publication_img.visible {
-        opacity: 1; /* Make visible */
+        opacity: 1;
     }
 
     .bar {
@@ -110,5 +139,4 @@
         object-fit: contain;
         transform: scaleX(-1);
     }
-
 </style>
