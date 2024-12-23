@@ -9,5 +9,6 @@
     }
     catch (mysqli_sql_exception $e) {
         echo "Failed to connect to database: " . $e->getMessage();
+        die();
     }
 ?>
