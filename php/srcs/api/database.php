@@ -5,7 +5,7 @@
             $_ENV["MYSQL_ROOT"],
             $_ENV["MYSQL_ROOT_PASSWORD"],
             $_ENV["MYSQL_DATABASE"]
-        );
+            );
     }
     catch (mysqli_sql_exception $e) {
         echo "Failed to connect to database: " . $e->getMessage();

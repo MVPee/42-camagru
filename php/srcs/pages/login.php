@@ -15,6 +15,8 @@
         <?php include("../components/navbar.php"); ?>
         <h1>Login</h1>
 
+        <div id="response"></div>
+
         <form id="loginForm" action="/api/login.php" method="post">
             <label for="username">Username</label>
             <input type="text" id="username" name="username" required>
@@ -23,7 +25,6 @@
             <button type="submit">Login</button>
         </form>
 
-        <div id="response"></div>
 
         <?php include("../components/footer.php"); ?>
     </body>
