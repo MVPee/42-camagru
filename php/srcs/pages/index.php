@@ -17,10 +17,3 @@
         <?php include("../components/footer.php"); ?>
     </body>
 </html>
-
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-    }
-</style>
