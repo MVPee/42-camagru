@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require_once("../api/database.php");
+    require_once("../includes/database.php");
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +12,7 @@
         <title>Camagru - Login</title>
     </head>
     <body>
-        <?php include("../components/navbar.php"); ?>
+        <?php include("../includes/components/navbar.php"); ?>
         <h1>Login</h1>
 
         <div id="response"></div>
@@ -26,7 +26,7 @@
         </form>
 
 
-        <?php include("../components/footer.php"); ?>
+        <?php include("../includes/components/footer.php"); ?>
     </body>
 </html>
 

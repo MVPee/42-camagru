@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require_once("../api/database.php");
+    require_once("../includes/database.php");
 ?>
 
 <!DOCTYPE html>
@@ -12,8 +12,8 @@
         <title>Camagru - Home</title>
     </head>
     <body>
-        <?php include("../components/navbar.php"); ?>
+        <?php include("../includes/components/navbar.php"); ?>
         <h1>Home</h1>
-        <?php include("../components/footer.php"); ?>
+        <?php include("../includes/components/footer.php"); ?>
     </body>
 </html>
