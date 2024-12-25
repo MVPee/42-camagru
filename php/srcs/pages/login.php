@@ -33,7 +33,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('loginForm');
-        
+        const responseDiv = document.getElementById('response');
+
         form.addEventListener('submit', function(e) {
             e.preventDefault();
 
@@ -44,15 +45,17 @@
                 body: formData
             })
             .then(response => {
-                if (!response.ok)
-                    throw new Error('Erreur réseau');
-                return response.text();
+                if (!response.ok) throw new Error('Network error');
+                return response.json();
             })
             .then(data => {
-                document.getElementById('response').innerHTML = data;
+                if (data.success)
+                    responseDiv.innerHTML = `<div class="success">${data.success}</div>`;
+                else
+                    responseDiv.innerHTML = `<div class="error">${data.error}</div>`;
             })
             .catch(error => {
-                document.getElementById('response').innerHTML = 'Erreur: ' + error.message;
+                responseDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
             });
         });
     });

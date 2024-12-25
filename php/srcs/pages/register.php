@@ -45,12 +45,10 @@
                 body: formData
             })
             .then(response => {
-                console.log(response);
                 if (!response.ok) throw new Error('Network error');
                 return response.json();
             })
             .then(data => {
-                console.log(data);
                 if (data.success)
                     responseDiv.innerHTML = `<div class="success">${data.success}</div>`;
                 else

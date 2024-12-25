@@ -1,12 +1,15 @@
 <?php
-    require_once("database.php");
+    header('Content-Type: application/json');
+    require_once("../includes/database.php");
+
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        echo json_encode(["error" => "Method not allowed."]);
+        exit();
+    }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $username = $_POST["username"];
+        $username = htmlspecialchars($_POST["username"], ENT_QUOTES, 'UTF-8');
         $password = $_POST["password"];
-        echo $username . "<br>";
-        echo $password;
+        echo json_decode(["succes" => $username . " " . $password]);
     }
-    else
-        echo("Invalid request method");
 ?>

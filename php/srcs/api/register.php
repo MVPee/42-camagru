@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once("database.php");
+require_once("../includes/database.php");
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     echo json_encode(["error" => "Method not allowed."]);
