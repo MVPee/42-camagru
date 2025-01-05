@@ -13,6 +13,7 @@
     </head>
     <body>
         <?php include("../includes/components/navbar.php"); ?>
+
         <h1>Login</h1>
 
         <div id="response"></div>
@@ -34,6 +35,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('loginForm');
         const responseDiv = document.getElementById('response');
+        const passwordInput = document.getElementById('password');
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -49,10 +51,14 @@
                 return response.json();
             })
             .then(data => {
-                if (data.success)
+                if (data.success) {
                     responseDiv.innerHTML = `<div class="success">${data.success}</div>`;
-                else
+                    window.location.href = '/';
+                }
+                else {
                     responseDiv.innerHTML = `<div class="error">${data.error}</div>`;
+                    passwordInput.value = '';
+                }
             })
             .catch(error => {
                 responseDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;

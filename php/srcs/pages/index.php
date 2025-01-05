@@ -14,6 +14,7 @@
     <body>
         <?php include("../includes/components/navbar.php"); ?>
         <h1>Home</h1>
+        <?php if (isset($_SESSION["user"])) echo "<p>Welcome, " . $_SESSION["user"]["username"] . "</p>"?>
         <?php include("../includes/components/footer.php"); ?>
     </body>
 </html>
