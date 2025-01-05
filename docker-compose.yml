@@ -9,6 +9,7 @@ services:
       - .env
     volumes:
       - ./php:/var/www/html
+      - /var/www/html/vendor
     networks:
       - app
     depends_on:

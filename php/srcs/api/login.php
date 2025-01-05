@@ -26,6 +26,12 @@
         }
 
         $user = $result->fetch_assoc();
+
+        if ($user["verified"] == 0) {
+            echo json_encode(["error" => "Account not verified. Check your mail."]);
+            exit();
+        }
+
         if (!password_verify($password, $user["password"])) {
             echo json_encode(["error" => "Invalid username or password"]);
             exit();

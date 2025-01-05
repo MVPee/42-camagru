@@ -11,11 +11,12 @@ stop:
 
 clean:	down
 		docker container prune --force
+		sudo rm -rf php/vendor
 
 fclean:	clean
 		docker system prune --all --force
-		rm -rf data
-		rm -rf php/public/uploads/*.png
+		sudo rm -rf data
+		sudo rm -rf php/public/uploads/*.png
 re:	clean
 	docker-compose up --build -d
 

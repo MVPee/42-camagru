@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: application/json');
 require_once("../includes/database.php");
+require_once('../includes/send_email.php');
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     echo json_encode(["error" => "Method not allowed."]);
@@ -51,12 +52,21 @@ if ($result->num_rows > 0) {
 }
 
 $password_hashed = password_hash($password, PASSWORD_DEFAULT);
-$query = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-$query->bind_param("sss", $username, $email, $password_hashed);
+$query = $conn->prepare("INSERT INTO users (username, email, password, token) VALUES (?, ?, ?, ?)");
+$token = bin2hex(random_bytes(16));
+$query->bind_param("ssss", $username, $email, $password_hashed, $token);
 
-if ($query->execute())
-    echo json_encode(["success" => "User registered successfully"]);
-else
-    echo json_encode(["error" => "An error occurred"]);
+if ($query->execute()) {
+    
+    $result = sendEmail($email, "Camagru", "Please verify your email address. http://localhost:8080/api/verify.php?token=" . $token . " to verify your email address");
+    if ($result['success']) {
+        echo json_encode(["success" => "User registered successfully. Please verify your email address."]);
+    } else {
+        echo json_encode(["error" => "An error occurred : " . $result['message']]);
+    }
+}
+else {
+    echo json_encode(["error" => "An error occurred: " . $conn->error]);
+}
 exit();
 ?>
