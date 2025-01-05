@@ -16,9 +16,6 @@
 
         <h1>Register</h1>
 
-        <p><?=$_ENV["EMAIL"]?></p>
-        <p><?=$_ENV["EMAIL_PASSWORD"]?></p>
-
         <div id="response"></div>
 
         <form id="registerForm" action="/api/register.php" method="post">
