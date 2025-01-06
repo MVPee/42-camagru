@@ -9,23 +9,20 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="/favicon.ico" type="image/x-icon">
-        <title>Camagru - Login</title>
+        <title>Camagru - Forgot</title>
     </head>
     <body>
         <?php include("../includes/components/navbar.php"); ?>
 
-        <h1>Login</h1>
+        <h1>Forgot password</h1>
 
         <div id="response"></div>
 
-        <form id="loginForm" action="/api/login.php" method="post">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
-            <button type="submit">Login</button>
+        <form id="passwordResetForm" action="/api/forgot-password.php" method="post">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <button type="submit">Submit</button>
         </form>
-        <a href="/forgot-password.php">I forgot my password</a>
 
         <?php include("../includes/components/footer.php"); ?>
     </body>
@@ -33,16 +30,15 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('loginForm');
+        const form = document.getElementById('passwordResetForm');
         const responseDiv = document.getElementById('response');
-        const passwordInput = document.getElementById('password');
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
 
             const formData = new FormData(form);
 
-            fetch('/api/login.php', {
+            fetch('/api/forgot-password.php', {
                 method: 'POST',
                 body: formData
             })
@@ -53,11 +49,9 @@
             .then(data => {
                 if (data.success) {
                     responseDiv.innerHTML = `<div class="success">${data.success}</div>`;
-                    window.location.href = '/';
                 }
                 else {
                     responseDiv.innerHTML = `<div class="error">${data.error}</div>`;
-                    passwordInput.value = '';
                 }
             })
             .catch(error => {

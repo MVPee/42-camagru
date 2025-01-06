@@ -9,23 +9,23 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="/favicon.ico" type="image/x-icon">
-        <title>Camagru - Login</title>
+        <title>Camagru - Reset</title>
     </head>
     <body>
         <?php include("../includes/components/navbar.php"); ?>
 
-        <h1>Login</h1>
+        <h1>Reset password</h1>
 
         <div id="response"></div>
 
-        <form id="loginForm" action="/api/login.php" method="post">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required>
+        <form id="passwordResetForm" action="/api/reset-password.php" method="post">
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
-            <button type="submit">Login</button>
+            <label for="confirmPassword">Confirm password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <input type="hidden" name="token" value="<?php echo htmlspecialchars($_GET["token"], ENT_QUOTES, 'UTF-8'); ?>">
+            <button type="submit">Submit</button>
         </form>
-        <a href="/forgot-password.php">I forgot my password</a>
 
         <?php include("../includes/components/footer.php"); ?>
     </body>
@@ -33,31 +33,29 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('loginForm');
+        const form = document.getElementById('passwordResetForm');
         const responseDiv = document.getElementById('response');
-        const passwordInput = document.getElementById('password');
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
 
             const formData = new FormData(form);
 
-            fetch('/api/login.php', {
+            fetch('/api/reset-password.php', {
                 method: 'POST',
                 body: formData
             })
             .then(response => {
                 if (!response.ok) throw new Error('Network error');
+                console.log(response);
                 return response.json();
             })
             .then(data => {
                 if (data.success) {
                     responseDiv.innerHTML = `<div class="success">${data.success}</div>`;
-                    window.location.href = '/';
                 }
                 else {
                     responseDiv.innerHTML = `<div class="error">${data.error}</div>`;
-                    passwordInput.value = '';
                 }
             })
             .catch(error => {
