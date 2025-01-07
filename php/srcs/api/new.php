@@ -1,26 +1,29 @@
 <?php
-header('Content-Type: application/json');
+    session_start();
 
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+require_once("../includes/database.php");
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(["error" => "Method not allowed."]);
     exit();
 }
 
-if (!isset($_POST["publication"]) || empty($_POST["publication"])) {
-    echo json_encode(["error" => "No image data provided."]);
-    http_response_code(400);
-    exit();
-}
+$userId = $_SESSION['user'];
+$description = $_POST['description'];
+$imageData = $_POST['image_data']; // Base64 encoded image
 
-$imageData = $_POST['publication'];
-
+// Remove "data:image/png;base64," part of the string
 $imageData = str_replace('data:image/png;base64,', '', $imageData);
 
+// Decode the Base64 string
 $imageData = base64_decode($imageData);
 
+// Generate a unique filename
 $fileName = '/var/www/html/rsrcs/public/' . uniqid('img_', true) . '.png';
 
+// Save the image to the server
 file_put_contents($fileName, $imageData);
 
+// Insert image info into the database
 echo json_encode(["success" => "Image uploaded successfully."]);
+exit();
 ?>
