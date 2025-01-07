@@ -2,9 +2,11 @@
     session_start();
 ?>
 
+
 <div id="publication_form">
     <h2>Create a new Publication</h2>
-    <form action="/api/new.php" method="post" enctype="multipart/form-data">
+    <div id="response"></div>
+    <form id="newForm" action="/api/new.php" method="post" enctype="multipart/form-data">
         <div id="webcam_container">
             <video id="webcam" autoplay></video>
             <canvas id="snapshot" style="display:none;"></canvas> 
@@ -50,6 +52,33 @@
             video.style.display = 'none';
             description.style.display = 'inline';
             canvas.style.maxWidth = `${canvas.width}px`;
+        });
+
+        const form = document.getElementById('newForm');
+        const responseDiv = document.getElementById('response');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            fetch('/api/new.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network error');
+                return response.json();
+            })
+            .then(data => {
+                if (data.success)
+                    responseDiv.innerHTML = `<div class="success">${data.success}</div>`;
+                else
+                    responseDiv.innerHTML = `<div class="error">${data.error}</div>`;
+            })
+            .catch(error => {
+                responseDiv.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+            });
         });
     });
 </script>
