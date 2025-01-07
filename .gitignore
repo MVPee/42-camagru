@@ -2,3 +2,5 @@ data
 vendor
 .env
 php/rsrcs/public/*.png
+output.css
+node_modules

@@ -2,7 +2,6 @@
     session_start();
 ?>
 
-
 <div id="publication_form">
     <h2>Create a new Publication</h2>
     <div id="response"></div>

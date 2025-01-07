@@ -5,6 +5,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     zip \
+    curl \
+    npm \
     && docker-php-ext-install pdo_mysql mysqli
 
 # Install Composer
@@ -17,6 +19,10 @@ COPY composer* /var/www/html
 
 # Install PHPMailer dependencies
 RUN composer install
+
+COPY package*.json .
+
+RUN npm i
 
 COPY . .
 
