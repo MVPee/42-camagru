@@ -15,6 +15,7 @@ services:
     depends_on:
       - mysql
     restart: always
+    command: sh -c "chown -R www-data:www-data /var/www/html/rsrcs/public && chmod -R 775 /var/www/html/rsrcs/public && php-fpm"
 
   nginx:
     container_name: nginx-camagru

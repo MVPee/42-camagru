@@ -1,3 +1,4 @@
 data
 vendor
 .env
+php/rsrcs/public/*.png
