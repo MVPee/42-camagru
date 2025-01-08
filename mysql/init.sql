@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `username` VARCHAR(20) NOT NULL UNIQUE,
   `email` VARCHAR(255) NOT NULL UNIQUE,
   `password` VARCHAR(255) NOT NULL,
+  `notifications` BOOLEAN NOT NULL DEFAULT 1,
   `verified` BOOLEAN NOT NULL DEFAULT 0,
   `token` VARCHAR(255) DEFAULT NULL,
   `password_reset_token` VARCHAR(255) DEFAULT NULL,
