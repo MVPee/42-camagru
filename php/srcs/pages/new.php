@@ -6,20 +6,36 @@
     }
 ?>
 
-<div id="publication_form">
-    <h2>Create a new Publication</h2>
-    <div id="response"></div>
-    <form id="newForm" action="/api/new.php" method="post" enctype="multipart/form-data">
-        <div id="webcam_container">
-            <video id="webcam" autoplay></video>
-            <canvas id="snapshot" style="display:none;"></canvas> 
-        </div>
-        <input type="text" name="description" id="description" placeholder="Description" style="display:none;" required>
-        <input type="hidden" name="image_data" id="image_data">
-        <button type="button" id="take_snapshot">Take Snapshot</button>
-        <button type="submit" id="submit_button" style="display:none;">Send</button>
-    </form>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <title>Camagru - New</title>
+</head>
+<body>
+    <?php include("../includes/components/navbar.php"); ?>
+
+    <div id="publication_form">
+        <h2>Create a new Publication</h2>
+        <div id="response"></div>
+        <form id="newForm" action="/api/new.php" method="post" enctype="multipart/form-data">
+            <div id="webcam_container">
+                <video id="webcam" autoplay></video>
+                <canvas id="snapshot" style="display:none;"></canvas> 
+            </div>
+            <input type="text" name="description" id="description" placeholder="Description" style="display:none;" required>
+            <input type="hidden" name="image_data" id="image_data">
+            <button type="button" id="take_snapshot">Take Snapshot</button>
+            <button type="submit" id="submit_button" style="display:none;">Send</button>
+        </form>
+    </div>
+
+    <?php include("../includes/components/footer.php"); ?>
+</body>
+</html>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
