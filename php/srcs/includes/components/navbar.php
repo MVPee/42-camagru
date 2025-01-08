@@ -2,6 +2,7 @@
     <ul>
         <li><a href="/">Home</a></li>
         <?php if (isset($_SESSION["user"])) { ?>
+            <li><a href="/profile.php">Profile</a></li>
             <li><a href="/new.php">+</a></li>
             <li><a href="/api/logout.php">Logout</a></li>
         <?php } else { ?>
