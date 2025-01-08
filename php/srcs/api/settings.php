@@ -14,14 +14,29 @@ if (!isset($_SESSION['user'])) {
 }
 
 $userId = $_SESSION['user']['id'] ?? null;
-$username = $_POST['username'] ?? null;
-$email = $_POST['email'] ?? null;
+$username = htmlspecialchars($_POST["username"] ?? null, ENT_QUOTES, 'UTF-8');
+$email = htmlspecialchars($_POST["email"] ?? null, ENT_QUOTES, 'UTF-8');
 $password = $_POST['password'] ?? null;
 $confirm_password = $_POST['confirm_password'] ?? null;
 $notifications = isset($_POST['notifications']) ? 1 : 0;
 
-if (!$username || !$email) {
+if (empty($username) || empty($email)) {
     echo json_encode(["error" => "Username and email are required."]);
+    exit();
+}
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(["error" => "Invalid email format."]);
+    exit();
+}
+
+if (strlen($username) < 5) {
+    echo json_encode(["error" => "Username must be at least 5 characters long"]);
+    exit();
+}
+
+if (strlen($username) > 20) {
+    echo json_encode(["error" => "Username must be at most 20 characters long"]);
     exit();
 }
 

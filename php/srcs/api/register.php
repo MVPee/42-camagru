@@ -23,6 +23,16 @@ if ($password !== $confirm_password) {
     exit();
 }
 
+if (strlen($username) < 5) {
+    echo json_encode(["error" => "Username must be at least 5 characters long"]);
+    exit();
+}
+
+if (strlen($username) > 20) {
+    echo json_encode(["error" => "Username must be at most 20 characters long"]);
+    exit();
+}
+
 if (strlen($password) < 8) {
     echo json_encode(["error" => "Password must be at least 8 characters long"]);
     exit();
