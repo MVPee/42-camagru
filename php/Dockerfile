@@ -6,7 +6,6 @@ RUN apt-get update && apt-get install -y \
     git \
     zip \
     curl \
-    npm \
     && docker-php-ext-install pdo_mysql mysqli
 
 # Install Composer
@@ -23,4 +22,4 @@ RUN composer install
 COPY . .
 
 # Default command to start PHP-FPM
-CMD ["php-fpm"]
+CMD ["sh", "-c", "chmod -R 775 /var/www/html/rsrcs/public && php-fpm"]
