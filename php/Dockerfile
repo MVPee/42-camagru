@@ -20,10 +20,6 @@ COPY composer* /var/www/html
 # Install PHPMailer dependencies
 RUN composer install
 
-COPY package*.json .
-
-RUN npm i
-
 COPY . .
 
 # Default command to start PHP-FPM
