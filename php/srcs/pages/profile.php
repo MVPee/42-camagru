@@ -21,7 +21,7 @@
     <h1>Profile</h1>
     <h3><a href="/settings.php">Settings</a></h3>
     <?php
-        $query = $conn->prepare("SELECT * FROM images WHERE userId = ?");
+        $query = $conn->prepare("SELECT * FROM images WHERE userId = ? ORDER BY id DESC");
         $query->bind_param("i", $_SESSION['user']['id']);
         $query->execute();
         $result = $query->get_result();

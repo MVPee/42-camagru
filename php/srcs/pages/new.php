@@ -90,8 +90,10 @@
                 return response.json();
             })
             .then(data => {
-                if (data.success)
+                if (data.success) {
                     responseDiv.innerHTML = `<div class="success">${data.success}</div>`;
+                    window.location.href = '/profile.php';
+                }
                 else
                     responseDiv.innerHTML = `<div class="error">${data.error}</div>`;
             })
